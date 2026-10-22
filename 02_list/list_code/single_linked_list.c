@@ -26,7 +26,7 @@ void sll_destory_node (void * node) {
 
 
 // 노드 추가 연산 (이중 포인터 사용)
-void sll_append_node (Node ** head, Node * new_node) {
+void sll_append_node_1 (Node ** head, Node * new_node) {
 
     if (*head == NULL) {
         *head = new_node;
@@ -83,14 +83,89 @@ Node * sll_search_node (Node * head, char * name) {
 
 }
 
-void ssl_remove_node (Node ** head, Node * remove_node) {
+void sll_remove_node (Node ** head, Node * remove_node) {
     
-    
+    if (*head == remove_node) {
+        *head = remove_node->next_node;
+    } else {
+
+        Node * current = *head;
+
+        // head node가 삭제할 노드가 아니고 삭제할 노드가 null이 아니면 계속됩니다.
+        // 삭제할 노드의 다음노드가 삭제할 노드가 아니면 계속합니다. -> 가장 중요한 규칙 -> 삭제할 노드의 전 노드를 찾습니다.
+        while (current != NULL && current->next_node != remove_node) {
+            current = current->next_node;
+        }
+        // current는 삭제할 노드의 전 노드
+        if (current != NULL) {
+            current->next_node = remove_node->next_node;
+        }
+
+    }
+
+}
+
+int sll_get_node_count (Node * head) {
+
+    int count = 0;
+
+    Node * current = head;
+
+    while (current != NULL) {
+        count++;
+        current = current->next_node;
+    }
+
+    return count;
+
+}
+
+void all_node_clear (Node * head) {
+
+    if (head == NULL) {
+        return;
+    } else {
+
+        Node * current = head;
+
+        while (current != NULL) {
+
+            Node * store_node = current->next_node;
+
+            printf("프로그램 종료 전체 노드 메모리 해제 중.. [%p], %s, %d\n", current, current->name, current->age);
+
+            free(current);
+
+            current = store_node;
+
+        }
+
+    }
+
 
 }
 
 int main (void) {
 
+
+    Node * list = NULL;
+    Node * my_node = NULL;
+
+    sll_append_node_1(&list, sll_create_node(20, "hong"));
+    sll_append_node_1(&list, sll_create_node(30, "park"));
+    sll_append_node_1(&list, sll_create_node(40, "koala"));
+
+    my_node = sll_search_node(list, "hong");
+
+    printf("age = %d name = %s\n", my_node->age, my_node->name);
+    int node_count = sll_get_node_count(list);
+    printf("node_count = %d\n", node_count);
+
+    sll_remove_node(&list, my_node);
+
+    sll_destory_node(my_node);
+
+    all_node_clear(list);
 
 
 
