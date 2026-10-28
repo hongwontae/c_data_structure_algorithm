@@ -27,6 +27,7 @@ int main(void)
 
         Popped = LLS_Pop(Stack);
 
+
         printf("Popped: %s, ", Popped->Data);
 
         LLS_DestroyNode(Popped);

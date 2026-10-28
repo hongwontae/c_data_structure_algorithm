@@ -56,6 +56,11 @@ void LLS_Push(LinkedListStack* Stack, Node* NewNode)
 
 Node* LLS_Pop(LinkedListStack* Stack)
 {
+
+    if (Stack->List == NULL) {
+        return NULL;
+    }
+
     // LLS_Pop() 함수가 반환할 최상위 노드 저장
     Node* TopNode = Stack->Top;
 
